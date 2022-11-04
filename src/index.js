@@ -1,25 +1,27 @@
-import './utils/dotenv'
+import './utils/config'
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import helmet from 'helmet'
+import bodyParser from 'body-parser'
 
 import logger from './utils/logger'
 import router from './routes'
 import { notFound, errorHandler } from './utils/errors'
 
-const port = parseInt(process.env.PORT, 10) || 3000
-
+const port = Number(process.env.PORT)
 const app = express()
 
 app.use(morgan(process.env.MORGAN_LOG))
-app.use(cors({ origin: process.env.ORIGIN }))
+app.use(cors({ origin: process.env.CORS_ORIGIN }))
 app.use(helmet())
+app.use(bodyParser.json())
 
 app.use('/', router)
+
 app.use(notFound)
 app.use(errorHandler)
 
-app.listen(port, () =>
-  logger.info(`Application started at https://localhost:${process.env.PORT}`),
-)
+app.listen(port, () => {
+  logger.info(`Server running on port ${port}`)
+})
