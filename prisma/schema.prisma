@@ -13,7 +13,7 @@ datasource db {
 model Company {
   companyId  String       @id @default(uuid())
   name       String
-  Department Department[]
+  department Department[]
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 }
